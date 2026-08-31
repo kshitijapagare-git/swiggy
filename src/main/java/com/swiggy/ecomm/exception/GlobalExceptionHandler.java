@@ -18,6 +18,21 @@ public class GlobalExceptionHandler {
         return ResponseEntity.status(HttpStatus.NOT_FOUND).body(body(HttpStatus.NOT_FOUND, ex.getMessage()));
     }
 
+    @ExceptionHandler(DuplicateResourceException.class)
+    public ResponseEntity<Map<String, Object>> handleDuplicate(DuplicateResourceException ex) {
+        return ResponseEntity.status(HttpStatus.CONFLICT).body(body(HttpStatus.CONFLICT, ex.getMessage()));
+    }
+
+    @ExceptionHandler(CustomerHasOrdersException.class)
+    public ResponseEntity<Map<String, Object>> handleCustomerHasOrders(CustomerHasOrdersException ex) {
+        return ResponseEntity.status(HttpStatus.CONFLICT).body(body(HttpStatus.CONFLICT, ex.getMessage()));
+    }
+
+    @ExceptionHandler(CategoryHasProductsException.class)
+    public ResponseEntity<Map<String, Object>> handleCategoryHasProducts(CategoryHasProductsException ex) {
+        return ResponseEntity.status(HttpStatus.CONFLICT).body(body(HttpStatus.CONFLICT, ex.getMessage()));
+    }
+
     @ExceptionHandler(MethodArgumentNotValidException.class)
     public ResponseEntity<Map<String, Object>> handleValidation(MethodArgumentNotValidException ex) {
         Map<String, String> fieldErrors = new LinkedHashMap<>();
