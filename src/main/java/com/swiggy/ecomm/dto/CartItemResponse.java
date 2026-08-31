@@ -7,13 +7,13 @@ public class CartItemResponse {
     private Long id;
     private Long cartId;
     private Long productId;
-    private Integer quantity;
+    private Long quantity;
 
     public static CartItemResponse from(CartItem item) {
         CartItemResponse response = new CartItemResponse();
         response.id = item.getId();
-        response.cartId = item.getCart().getId();
-        response.productId = item.getProduct().getId();
+        response.cartId = item.getCartId();
+        response.productId = item.getProductId();
         response.quantity = item.getQuantity();
         return response;
     }
@@ -30,7 +30,7 @@ public class CartItemResponse {
         return productId;
     }
 
-    public Integer getQuantity() {
+    public Long getQuantity() {
         return quantity;
     }
 }

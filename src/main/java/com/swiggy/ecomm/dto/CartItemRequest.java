@@ -6,22 +6,11 @@ import jakarta.validation.constraints.Positive;
 public class CartItemRequest {
 
     @NotNull
-    private Long cartId;
-
-    @NotNull
     private Long productId;
 
     @NotNull
     @Positive
-    private Integer quantity;
-
-    public Long getCartId() {
-        return cartId;
-    }
-
-    public void setCartId(Long cartId) {
-        this.cartId = cartId;
-    }
+    private Long quantity;
 
     public Long getProductId() {
         return productId;
@@ -31,11 +20,11 @@ public class CartItemRequest {
         this.productId = productId;
     }
 
-    public Integer getQuantity() {
+    public Long getQuantity() {
         return quantity;
     }
 
-    public void setQuantity(Integer quantity) {
+    public void setQuantity(Long quantity) {
         this.quantity = quantity;
     }
 }
