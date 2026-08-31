@@ -8,7 +8,5 @@ import java.util.List;
 
 public interface OrderRepository extends JpaRepository<Order, Long> {
 
-    boolean existsByCustomerId(Long customerId);
-
     List<Order> findByStatus(OrderStatus status);
 }
