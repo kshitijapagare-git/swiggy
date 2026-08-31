@@ -2,6 +2,7 @@ package com.swiggy.ecomm.controller;
 
 import com.swiggy.ecomm.dto.OrderRequest;
 import com.swiggy.ecomm.dto.OrderResponse;
+import com.swiggy.ecomm.model.OrderStatus;
 import com.swiggy.ecomm.service.OrderService;
 import jakarta.validation.Valid;
 import org.springframework.http.HttpStatus;
@@ -13,6 +14,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import java.util.List;
@@ -39,8 +41,8 @@ public class OrderController {
     }
 
     @GetMapping
-    public List<OrderResponse> getAll() {
-        return orderService.getAll().stream().map(OrderResponse::from).toList();
+    public List<OrderResponse> getAll(@RequestParam(required = false) OrderStatus status) {
+        return orderService.getAll(status).stream().map(OrderResponse::from).toList();
     }
 
     @PutMapping("/{id}")

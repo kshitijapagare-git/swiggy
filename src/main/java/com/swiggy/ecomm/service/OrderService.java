@@ -3,6 +3,7 @@ package com.swiggy.ecomm.service;
 import com.swiggy.ecomm.dto.OrderRequest;
 import com.swiggy.ecomm.exception.ResourceNotFoundException;
 import com.swiggy.ecomm.model.Order;
+import com.swiggy.ecomm.model.OrderStatus;
 import com.swiggy.ecomm.model.Product;
 import com.swiggy.ecomm.repository.OrderRepository;
 import com.swiggy.ecomm.repository.ProductRepository;
@@ -33,6 +34,13 @@ public class OrderService {
     }
 
     public List<Order> getAll() {
+        return getAll(null);
+    }
+
+    public List<Order> getAll(OrderStatus status) {
+        if (status != null) {
+            return orderRepository.findByStatus(status);
+        }
         return orderRepository.findAll();
     }
 
