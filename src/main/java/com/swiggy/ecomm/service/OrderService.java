@@ -3,11 +3,13 @@ package com.swiggy.ecomm.service;
 import com.swiggy.ecomm.dto.OrderRequest;
 import com.swiggy.ecomm.exception.ResourceNotFoundException;
 import com.swiggy.ecomm.model.Order;
+import com.swiggy.ecomm.model.OrderItem;
 import com.swiggy.ecomm.model.Product;
 import com.swiggy.ecomm.repository.OrderRepository;
 import com.swiggy.ecomm.repository.ProductRepository;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @Service
@@ -48,12 +50,21 @@ public class OrderService {
     }
 
     private void applyRequest(Order order, OrderRequest request) {
-        Product product = productRepository.findById(request.getProductId())
-                .orElseThrow(() -> new ResourceNotFoundException("Product not found with id " + request.getProductId()));
         order.setCustomerName(request.getCustomerName());
-        order.setProduct(product);
-        order.setQuantity(request.getQuantity());
-        order.setUnitPrice(request.getUnitPrice());
         order.setStatus(request.getStatus());
+
+        order.getItems().clear();
+        List<OrderItem> items = new ArrayList<>();
+        request.getItems().forEach(itemRequest -> {
+            Product product = productRepository.findById(itemRequest.getProductId())
+                    .orElseThrow(() -> new ResourceNotFoundException("Product not found with id " + itemRequest.getProductId()));
+            OrderItem item = new OrderItem();
+            item.setOrder(order);
+            item.setProduct(product);
+            item.setQuantity(itemRequest.getQuantity());
+            item.setUnitPrice(itemRequest.getUnitPrice());
+            items.add(item);
+        });
+        order.getItems().addAll(items);
     }
 }

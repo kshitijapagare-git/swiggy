@@ -3,24 +3,20 @@ package com.swiggy.ecomm.dto;
 import com.swiggy.ecomm.model.Order;
 import com.swiggy.ecomm.model.OrderStatus;
 
-import java.math.BigDecimal;
+import java.util.List;
 
 public class OrderResponse {
 
     private Long id;
     private String customerName;
-    private Long productId;
-    private Integer quantity;
-    private BigDecimal unitPrice;
+    private List<OrderItemResponse> items;
     private OrderStatus status;
 
     public static OrderResponse from(Order order) {
         OrderResponse response = new OrderResponse();
         response.id = order.getId();
         response.customerName = order.getCustomerName();
-        response.productId = order.getProduct().getId();
-        response.quantity = order.getQuantity();
-        response.unitPrice = order.getUnitPrice();
+        response.items = order.getItems().stream().map(OrderItemResponse::from).toList();
         response.status = order.getStatus();
         return response;
     }
@@ -33,16 +29,8 @@ public class OrderResponse {
         return customerName;
     }
 
-    public Long getProductId() {
-        return productId;
-    }
-
-    public Integer getQuantity() {
-        return quantity;
-    }
-
-    public BigDecimal getUnitPrice() {
-        return unitPrice;
+    public List<OrderItemResponse> getItems() {
+        return items;
     }
 
     public OrderStatus getStatus() {

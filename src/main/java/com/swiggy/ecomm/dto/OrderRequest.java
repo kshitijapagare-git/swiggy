@@ -1,28 +1,20 @@
 package com.swiggy.ecomm.dto;
 
 import com.swiggy.ecomm.model.OrderStatus;
+import jakarta.validation.Valid;
 import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotEmpty;
 import jakarta.validation.constraints.NotNull;
-import jakarta.validation.constraints.Positive;
-import jakarta.validation.constraints.PositiveOrZero;
 
-import java.math.BigDecimal;
+import java.util.List;
 
 public class OrderRequest {
 
     @NotBlank
     private String customerName;
 
-    @NotNull
-    private Long productId;
-
-    @NotNull
-    @Positive
-    private Integer quantity;
-
-    @NotNull
-    @PositiveOrZero
-    private BigDecimal unitPrice;
+    @NotEmpty
+    private List<@Valid OrderItemRequest> items;
 
     @NotNull
     private OrderStatus status;
@@ -35,28 +27,12 @@ public class OrderRequest {
         this.customerName = customerName;
     }
 
-    public Long getProductId() {
-        return productId;
+    public List<OrderItemRequest> getItems() {
+        return items;
     }
 
-    public void setProductId(Long productId) {
-        this.productId = productId;
-    }
-
-    public Integer getQuantity() {
-        return quantity;
-    }
-
-    public void setQuantity(Integer quantity) {
-        this.quantity = quantity;
-    }
-
-    public BigDecimal getUnitPrice() {
-        return unitPrice;
-    }
-
-    public void setUnitPrice(BigDecimal unitPrice) {
-        this.unitPrice = unitPrice;
+    public void setItems(List<OrderItemRequest> items) {
+        this.items = items;
     }
 
     public OrderStatus getStatus() {
