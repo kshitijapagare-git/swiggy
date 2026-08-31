@@ -2,11 +2,11 @@ package com.swiggy.ecomm.dto;
 
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Positive;
-import jakarta.validation.constraints.PositiveOrZero;
-
-import java.math.BigDecimal;
 
 public class OrderItemRequest {
+
+    @NotNull
+    private Long orderId;
 
     @NotNull
     private Long productId;
@@ -15,9 +15,13 @@ public class OrderItemRequest {
     @Positive
     private Integer quantity;
 
-    @NotNull
-    @PositiveOrZero
-    private BigDecimal unitPrice;
+    public Long getOrderId() {
+        return orderId;
+    }
+
+    public void setOrderId(Long orderId) {
+        this.orderId = orderId;
+    }
 
     public Long getProductId() {
         return productId;
@@ -33,13 +37,5 @@ public class OrderItemRequest {
 
     public void setQuantity(Integer quantity) {
         this.quantity = quantity;
-    }
-
-    public BigDecimal getUnitPrice() {
-        return unitPrice;
-    }
-
-    public void setUnitPrice(BigDecimal unitPrice) {
-        this.unitPrice = unitPrice;
     }
 }

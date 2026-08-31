@@ -18,7 +18,7 @@ public class OrderItemResponse {
         response.orderId = item.getOrder().getId();
         response.productId = item.getProduct().getId();
         response.quantity = item.getQuantity();
-        response.unitPrice = item.getUnitPrice();
+        response.unitPrice = item.getProduct().getPrice();
         return response;
     }
 

@@ -12,11 +12,13 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import java.util.List;
 
 @RestController
+@RequestMapping("/api/order-items")
 public class OrderItemController {
 
     private final OrderItemService orderItemService;
@@ -25,28 +27,28 @@ public class OrderItemController {
         this.orderItemService = orderItemService;
     }
 
-    @PostMapping("/api/orders/{orderId}/items")
-    public ResponseEntity<OrderItemResponse> create(@PathVariable Long orderId, @Valid @RequestBody OrderItemRequest request) {
-        OrderItemResponse response = OrderItemResponse.from(orderItemService.create(orderId, request));
+    @PostMapping
+    public ResponseEntity<OrderItemResponse> create(@Valid @RequestBody OrderItemRequest request) {
+        OrderItemResponse response = OrderItemResponse.from(orderItemService.create(request));
         return ResponseEntity.status(HttpStatus.CREATED).body(response);
     }
 
-    @GetMapping("/api/order-items/{id}")
+    @GetMapping("/{id}")
     public OrderItemResponse getById(@PathVariable Long id) {
         return OrderItemResponse.from(orderItemService.getById(id));
     }
 
-    @GetMapping("/api/order-items")
+    @GetMapping
     public List<OrderItemResponse> getAll() {
         return orderItemService.getAll().stream().map(OrderItemResponse::from).toList();
     }
 
-    @PutMapping("/api/order-items/{id}")
+    @PutMapping("/{id}")
     public OrderItemResponse update(@PathVariable Long id, @Valid @RequestBody OrderItemRequest request) {
         return OrderItemResponse.from(orderItemService.update(id, request));
     }
 
-    @DeleteMapping("/api/order-items/{id}")
+    @DeleteMapping("/{id}")
     public ResponseEntity<Void> delete(@PathVariable Long id) {
         orderItemService.delete(id);
         return ResponseEntity.noContent().build();

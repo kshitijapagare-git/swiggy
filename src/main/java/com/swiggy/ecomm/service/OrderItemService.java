@@ -25,19 +25,9 @@ public class OrderItemService {
         this.productRepository = productRepository;
     }
 
-    public OrderItem create(Long orderId, OrderItemRequest request) {
-        Order order = orderRepository.findById(orderId)
-                .orElseThrow(() -> new ResourceNotFoundException("Order not found with id " + orderId));
-        Product product = productRepository.findById(request.getProductId())
-                .orElseThrow(() -> new ResourceNotFoundException("Product not found with id " + request.getProductId()));
-
+    public OrderItem create(OrderItemRequest request) {
         OrderItem item = new OrderItem();
-        item.setOrder(order);
-        item.setProduct(product);
-        item.setQuantity(request.getQuantity());
-        item.setUnitPrice(request.getUnitPrice());
-
-        order.getItems().add(item);
+        applyRequest(item, request);
         return orderItemRepository.save(item);
     }
 
@@ -52,16 +42,22 @@ public class OrderItemService {
 
     public OrderItem update(Long id, OrderItemRequest request) {
         OrderItem item = getById(id);
-        Product product = productRepository.findById(request.getProductId())
-                .orElseThrow(() -> new ResourceNotFoundException("Product not found with id " + request.getProductId()));
-        item.setProduct(product);
-        item.setQuantity(request.getQuantity());
-        item.setUnitPrice(request.getUnitPrice());
+        applyRequest(item, request);
         return orderItemRepository.save(item);
     }
 
     public void delete(Long id) {
         OrderItem item = getById(id);
         orderItemRepository.delete(item);
+    }
+
+    private void applyRequest(OrderItem item, OrderItemRequest request) {
+        Order order = orderRepository.findById(request.getOrderId())
+                .orElseThrow(() -> new ResourceNotFoundException("Order not found with id " + request.getOrderId()));
+        Product product = productRepository.findById(request.getProductId())
+                .orElseThrow(() -> new ResourceNotFoundException("Product not found with id " + request.getProductId()));
+        item.setOrder(order);
+        item.setProduct(product);
+        item.setQuantity(request.getQuantity());
     }
 }
