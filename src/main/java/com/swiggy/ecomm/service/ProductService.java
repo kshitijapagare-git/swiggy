@@ -3,6 +3,7 @@ package com.swiggy.ecomm.service;
 import com.swiggy.ecomm.dto.ProductRequest;
 import com.swiggy.ecomm.exception.ResourceNotFoundException;
 import com.swiggy.ecomm.model.Product;
+import com.swiggy.ecomm.repository.CartItemRepository;
 import com.swiggy.ecomm.repository.ProductRepository;
 import org.springframework.stereotype.Service;
 
@@ -12,9 +13,11 @@ import java.util.List;
 public class ProductService {
 
     private final ProductRepository productRepository;
+    private final CartItemRepository cartItemRepository;
 
-    public ProductService(ProductRepository productRepository) {
+    public ProductService(ProductRepository productRepository, CartItemRepository cartItemRepository) {
         this.productRepository = productRepository;
+        this.cartItemRepository = cartItemRepository;
     }
 
     public Product create(ProductRequest request) {
@@ -40,6 +43,7 @@ public class ProductService {
 
     public void delete(Long id) {
         Product product = getById(id);
+        cartItemRepository.deleteByProductId(id);
         productRepository.delete(product);
     }
 
