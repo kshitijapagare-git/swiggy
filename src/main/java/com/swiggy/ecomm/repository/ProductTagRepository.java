@@ -11,8 +11,4 @@ public interface ProductTagRepository extends JpaRepository<ProductTag, Long> {
     List<ProductTag> findByProductId(Long productId);
 
     Optional<ProductTag> findByIdAndProductId(Long id, Long productId);
-
-    boolean existsByProductIdAndKeyAndValue(Long productId, String key, String value);
-
-    void deleteByProductId(Long productId);
 }

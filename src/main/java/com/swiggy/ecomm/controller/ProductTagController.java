@@ -40,14 +40,14 @@ public class ProductTagController {
     }
 
     @GetMapping
-    public List<ProductTagResponse> listByProduct(@PathVariable Long productId) {
-        return productTagService.listByProduct(productId).stream().map(ProductTagResponse::from).toList();
+    public List<ProductTagResponse> getAll(@PathVariable Long productId) {
+        return productTagService.getAllForProduct(productId).stream().map(ProductTagResponse::from).toList();
     }
 
-    @PutMapping
-    public List<ProductTagResponse> replaceAll(@PathVariable Long productId,
-                                                @Valid @RequestBody List<ProductTagRequest> requests) {
-        return productTagService.replaceAll(productId, requests).stream().map(ProductTagResponse::from).toList();
+    @PutMapping("/{tagId}")
+    public ProductTagResponse update(@PathVariable Long productId, @PathVariable Long tagId,
+                                      @Valid @RequestBody ProductTagRequest request) {
+        return ProductTagResponse.from(productTagService.update(productId, tagId, request));
     }
 
     @DeleteMapping("/{tagId}")
